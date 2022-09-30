@@ -2,6 +2,7 @@
 Question: Apple Pay Volume
 by: Visa
 Link to the detail of question: https://datalemur.com/questions/apple-pay-volume
+Approach: SUM + CASE
 */
 
 SELECT
