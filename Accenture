@@ -1,0 +1,29 @@
+Question: Compensation Outliers
+by: Accenture
+Link to the detail of question: https://datalemur.com/questions/compensation-outliers
+My approach: CTE + Window Function
+*/
+
+
+WITH averages
+AS(
+  SELECT
+    employee_id,
+    salary,
+    title,
+    AVG(salary) OVER(PARTITION BY title)*2 AS double,
+    AVG(salary) OVER(PARTITION BY title)/2 AS half
+FROM employee_pay
+)
+
+SELECT
+  employee_id,
+  salary,
+  CASE
+    WHEN salary > double THEN 'Overpaid'
+    WHEN salary < half THEN 'Underpaid'
+    ELSE NULL END AS status
+FROM
+  averages
+WHERE
+  salary > double OR salary < half;
