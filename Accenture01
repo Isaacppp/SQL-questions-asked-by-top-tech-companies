@@ -1,7 +1,7 @@
 Question: Compensation Outliers
 by: Accenture
 Link to the detail of question: https://datalemur.com/questions/compensation-outliers
-My approach: CTE + Window Function
+Approach: CTE + Window Function
 */
 
 
