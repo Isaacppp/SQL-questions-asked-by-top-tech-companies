@@ -1,0 +1,22 @@
+/*
+Question: User's Third Transaction
+by: Uber
+Link to the detail of question: https://datalemur.com/questions/sql-third-transaction
+My approach: SELF JOIN
+*/
+
+SELECT 
+    a.user_id AS user_id,
+    a.spend AS spend,
+    MIN(a.transaction_date) AS transaction_date
+FROM
+    transactions a,
+    transactions b,
+    transactions c
+WHERE
+    a.user_id = b.user_id
+        AND b.user_id = c.user_id
+        AND a.transaction_date > b.transaction_date
+        AND b.transaction_date > c.transaction_date
+GROUP BY a.user_id , a.spend
+ORDER BY a.user_id;
