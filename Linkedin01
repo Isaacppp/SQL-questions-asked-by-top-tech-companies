@@ -1,0 +1,17 @@
+/*
+Question: Highest Number of Products
+by: Linkedin
+Link to the detail of question: https://datalemur.com/questions/sql-highest-products
+approach: COUNT DISTINCT, HAVING
+*/
+
+SELECT
+  user_id,
+  count (distinct product_id) as product_num
+FROM
+  user_transactions
+GROUP BY user_id
+HAVING
+  SUM(spend) >= 1000
+order by product_num DESC, sum(spend) DESC, user_id DESC
+LIMIT 3;
