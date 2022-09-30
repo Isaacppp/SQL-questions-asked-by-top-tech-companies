@@ -2,7 +2,7 @@
 Question: App Clickthrough Rate (CTR)
 by: Facebook 
 Link to the detail of question: https://datalemur.com/questions/sql-app-ctr
-My approach: SUM + CASE
+Approach: SUM + CASE
 */
 
 
