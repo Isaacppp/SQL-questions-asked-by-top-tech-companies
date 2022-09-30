@@ -1,0 +1,23 @@
+/*
+Question: Apple Pay Volume
+by: Visa
+Link to the detail of question: https://datalemur.com/questions/apple-pay-volume
+*/
+
+SELECT
+  merchant_id,
+  SUM(CASE
+    WHEN payment_method = 'Apple Pay' THEN transaction_amount
+    ELSE 0 END) AS volume
+FROM
+  transactions
+GROUP BY
+  merchant_id
+ORDER BY
+  volume DESC;
+  
+--
+/*
+What I learned:
+use LOWER() as best industry practice
+/*
