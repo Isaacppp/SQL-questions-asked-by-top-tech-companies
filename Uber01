@@ -2,7 +2,7 @@
 Question: User's Third Transaction
 by: Uber
 Link to the detail of question: https://datalemur.com/questions/sql-third-transaction
-My approach: SELF JOIN
+Approach: SELF JOIN
 */
 
 SELECT 
