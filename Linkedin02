@@ -1,6 +1,6 @@
 /*
 Question: Highest Number of Products
-by: Linkedin
+by: eBay
 Link to the detail of question: https://datalemur.com/questions/sql-highest-products
 approach: COUNT DISTINCT + HAVING
 */
