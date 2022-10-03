@@ -1,0 +1,13 @@
+/*
+Question: Ad Campaign ROAS
+by: Google 
+Link to the detail of question: https://datalemur.com/questions/ad-campaign-roas
+Approach: SUM
+*/
+
+SELECT
+  advertiser_id,
+  ROUND(((SUM(revenue) / SUM(spend))::DECIMAL), 2) AS ROAS
+FROM ad_campaigns
+GROUP BY advertiser_id
+ORDER BY advertiser_id;
