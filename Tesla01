@@ -1,0 +1,13 @@
+/*
+Question: Unfinished Parts
+by: Tesla
+Link to the detail of question: https://datalemur.com/questions/tesla-unfinished-parts
+Approach: filter by IS NULL
+*/
+
+SELECT
+  DISTINCT part
+FROM
+  parts_assembly
+WHERE
+  finish_date IS NULL;
