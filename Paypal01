@@ -2,7 +2,7 @@
 Question: Final Account Balance
 by: Paypal
 Link to the detail of question: https://datalemur.com/questions/final-account-balance
-Approach: SUM + CASE
+Approach: SUM + CASE 
 */
 
 SELECT
