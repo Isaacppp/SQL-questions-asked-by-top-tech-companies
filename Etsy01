@@ -1,0 +1,24 @@
+/*
+Question: First Transaction
+by: Etsy
+Link to the detail of question: https://datalemur.com/questions/sql-first-transaction
+Approach: CTE + Window Function
+*/
+
+WITH order_all
+AS(
+  SELECT
+    ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY transaction_date) AS orders,
+    transaction_id,
+    user_id,
+    spend,
+    transaction_date
+  FROM
+    user_transactions)
+  
+SELECT
+  COUNT(DISTINCT user_id)
+FROM
+  order_all
+WHERE
+  orders = 1 AND spend >= 50;
