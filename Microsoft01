@@ -1,0 +1,28 @@
+/*
+Question: Spare Server Capacity
+by: Microsoft
+Link to the detail of question: https://datalemur.com/questions/sql-spare-server-capacity
+Approach: CTE + JOIN
+*/
+
+WITH demand
+AS(
+  SELECT
+      datacenter_id,
+      SUM(monthly_demand) AS demand_by_datacenter
+    FROM
+      forecasted_demand
+    GROUP BY
+      datacenter_id
+)
+
+
+SELECT
+  d.datacenter_id,
+  d.monthly_capacity - demand_by_datacenter AS spare_capacity
+FROM
+  demand de
+  JOIN
+  datacenters d ON de.datacenter_id = d.datacenter_id
+ORDER BY
+  d.datacenter_id, spare_capacity;
