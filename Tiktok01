@@ -1,0 +1,22 @@
+/*
+Question: Signup Confirmation Rate
+by: Tiktok
+Link to the detail of question: https://datalemur.com/questions/signup-confirmation-rate
+Approach: CTE + JOIN
+*/
+
+WITH confirmed_acct
+AS(
+  SELECT
+    e.user_id,
+    SUM(CASE WHEN t.signup_action = 'Confirmed' THEN 1 ELSE 0 END) AS confirm_count
+  FROM
+    emails e
+    LEFT JOIN texts t ON e.email_id = t.email_id
+  GROUP BY
+    e.user_id)
+    
+SELECT
+  ROUND(SUM(confirm_count)/COUNT(user_id),2) AS confirm_rate
+FROM
+  confirmed_acct;
