@@ -1,0 +1,30 @@
+/*
+Question: Photoshop Revenue Analysis
+by: Adobe
+Link to the detail of question: https://datalemur.com/questions/photoshop-revenue-analysis
+Approach: CTE + JOIN
+*/
+
+
+--find customer who had bought Photoshop first
+
+WITH c_photoshop AS(
+  SELECT
+  customer_id
+FROM
+  adobe_transactions
+WHERE
+  product = 'Photoshop'
+)
+
+SELECT
+  c.customer_id,
+  SUM(a.revenue)
+FROM
+  c_photoshop c
+  JOIN
+  adobe_transactions a ON c.customer_id = a.customer_id
+WHERE
+  a.product <> 'Photoshop'
+GROUP BY
+  c.customer_id;
