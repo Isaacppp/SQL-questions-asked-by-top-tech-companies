@@ -1,0 +1,29 @@
+/*
+Question: Histogram of Tweets
+by: Twitter
+Link to the detail of question: https://datalemur.com/questions/compensation-outliers
+Approach: CTE
+*/
+
+WITH 2022_post_count
+AS(
+  SELECT
+    user_id,
+    COUNT(user_id) AS post_count
+  FROM
+    tweets
+  WHERE
+    DATE_PART('YEAR', tweet_date) = '2022'
+  GROUP BY
+    user_id
+)
+
+SELECT
+  post_count AS tweet_bucket,
+  COUNT(user_id) AS users_num
+FROM
+  2022_post_count
+GROUP BY
+  tweet_bucket
+ORDER BY
+  tweet_bucket;
