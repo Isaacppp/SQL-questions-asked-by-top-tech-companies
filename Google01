@@ -2,7 +2,7 @@
 Question: Ad Campaign ROAS
 by: Google 
 Link to the detail of question: https://datalemur.com/questions/ad-campaign-roas
-Approach: SUM
+Approach: SUM 
 */
 
 SELECT
