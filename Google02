@@ -1,0 +1,28 @@
+/*
+Question: Odd and Even Measurements
+by: Google
+Link to the detail of question: https://datalemur.com/questions/odd-even-measurements
+Approach: CTE + Window Function
+*/
+
+WITH in_order
+AS(
+  SELECT
+    ROW_NUMBER() OVER (PARTITION BY DATE(measurement_time) ORDER BY(measurement_time)) AS row_num,
+    measurement_id,
+    measurement_value,
+    measurement_time
+  FROM
+    measurements
+)
+
+SELECT
+  DATE(measurement_time) AS measurement_date,
+  SUM(CASE WHEN MOD(row_num,2) = 1 THEN measurement_value ELSE 0 END) AS odd_sum,
+  SUM(CASE WHEN MOD(row_num,2) = 0 THEN measurement_value ELSE 0 END) AS even_sum
+FROM
+  in_order
+GROUP BY
+  measurement_date
+ORDER BY
+  measurement_date;
