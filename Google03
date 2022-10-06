@@ -1,0 +1,30 @@
+/*
+Question: Invalid Search Results
+by: Google
+Link to the detail of question: https://datalemur.com/questions/invalid-search-pct
+Approach: CTE + AGG
+*/
+
+
+WITH summary
+AS(
+  SELECT
+      country,
+      SUM(num_search) AS total_search,
+      ROUND(SUM(num_search*invalid_result_pct*0.01),0) AS invalid
+    FROM
+      search_category
+    WHERE num_search IS NOT NULL
+    AND invalid_result_pct IS NOT NULL
+    GROUP BY
+      country
+)
+
+SELECT
+  country,
+  total_search,
+  ROUND((invalid/total_search)*100,2) AS invalid_result_pct
+FROM
+  summary
+ORDER BY
+  country;
