@@ -1,0 +1,27 @@
+/*
+Question: Fill Missing Client Data
+by: Accenture
+Link to the detail of question: https://datalemur.com/questions/fill-missing-product
+Approach: CTE + Window Function
+*/
+
+WITH grouped
+AS(
+  SELECT
+    product_id,
+    category,
+    name,
+    COUNT(category) OVER(ORDER BY product_id) AS grouped
+  FROM
+    products
+)
+
+SELECT
+  product_id,
+  FIRST_VALUE(category) OVER(PARTITION BY grouped ORDER BY product_id) AS category,
+  name
+FROM
+  grouped;
+  
+--
+Learned: FIRST_VALUE
