@@ -1,0 +1,35 @@
+/*
+Question: Reactivated Users
+by: Facebook
+Link to the detail of question: https://datalemur.com/questions/reactivated-users
+Approach: CTE + Window Function + COALESCE
+*/
+
+WITH in_month
+AS(
+  SELECT 
+    user_id,
+    DATE_PART('month', login_date) AS months
+  FROM user_logins
+  ORDER BY user_id, months
+),
+
+listed
+AS(
+  SELECT
+    user_id,
+    LAG(months) OVER(PARTITION BY user_id ORDER BY months) AS previous_login,
+    months
+  FROM in_month
+)
+
+SELECT
+  months AS current_month,
+  SUM(CASE WHEN months - COALESCE(previous_login, 0) > 1 THEN 1 ELSE 0 END) AS reactivated_users
+FROM
+  listed
+GROUP BY
+  current_month
+HAVING SUM(CASE WHEN months - COALESCE(previous_login, 0) > 1 THEN 1 ELSE 0 END) > 0
+ORDER BY
+  current_month;
