@@ -5,6 +5,7 @@ Link to the detail of question: https://datalemur.com/questions/sql-bad-experien
 Approach: CTE + JOIN
 */
 
+--Find all orders made by customers who signed up in June
 WITH june_customers
 AS(
   SELECT
@@ -25,6 +26,8 @@ AS(
     o.customer_id, o.order_timestamp
 ),
 
+--Get total orders and successful orders made by those customers
+
 total_and_successful
 AS(
   SELECT
@@ -37,6 +40,8 @@ AS(
     june_customers j
     JOIN trips t ON j.trip_id = t.trip_id
 )
+
+--Get bad experience percentage
 
 SELECT
   ROUND(((total - successful_times)/ total::DECIMAL)*100.0,2) AS bad_experience_pct
