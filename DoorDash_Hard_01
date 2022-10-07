@@ -1,0 +1,44 @@
+/*
+Question: Bad Delivery Rate
+by: DoorDash
+Link to the detail of question: https://datalemur.com/questions/sql-bad-experience
+Approach: CTE + JOIN
+*/
+
+WITH june_customers
+AS(
+  SELECT
+    o.order_id,
+    o.customer_id,
+    o.trip_id,
+    o.status,
+    o.order_timestamp,
+    c.signup_timestamp
+  FROM
+    orders o
+    JOIN
+    customers c ON o.customer_id = c.customer_id
+  WHERE
+    EXTRACT(MONTH FROM c.signup_timestamp) = 6
+    AND DATE_PART('day', order_timestamp - signup_timestamp) <=14
+  ORDER BY
+    o.customer_id, o.order_timestamp
+),
+
+total_and_successful
+AS(
+  SELECT
+    COUNT(order_id) AS total,
+    SUM(CASE
+      WHEN j.status = 'completed successfully' 
+      AND DATE_PART('minute', t.actual_delivery_timestamp - j.order_timestamp) <= 30 THEN 1
+      ELSE 0 END) AS successful_times
+  FROM
+    june_customers j
+    JOIN trips t ON j.trip_id = t.trip_id
+)
+
+SELECT
+  ROUND(((total - successful_times)/ total::DECIMAL)*100.0,2) AS bad_experience_pct
+FROM
+  total_and_successful;
