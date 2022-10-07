@@ -1,0 +1,39 @@
+/*
+Question: Y-on-Y Growth Rate
+by: Wayfair
+Link to the detail of question: https://datalemur.com/questions/yoy-growth-rate
+Approach: CTE + Window Function
+*/
+
+WITH a
+AS(
+  SELECT
+    DATE_PART('year',transaction_date) AS year,
+    product_id,
+    SUM(spend) AS year_total
+  FROM
+    user_transactions
+  GROUP BY
+    product_id, year
+  ORDER BY
+    product_id, year
+),
+
+b
+AS(
+  SELECT
+    year,
+    product_id,
+    LAG(year_total) OVER(PARTITION BY product_id ORDER BY year) AS prev,
+    year_total
+  FROM b
+)
+
+SELECT
+  year,
+  product_id,
+  year_total AS curr_year_spend,
+  prev AS prev_year_spend,
+  ROUND((year_total - prev)/prev,2) AS yoy_rate
+FROM b
+ORDER BY year, product_id;
