@@ -1,0 +1,36 @@
+/*
+Question: Highest-Grossing Items
+by: Amazon
+Link to the detail of question: https://datalemur.com/questions/sql-highest-grossing
+Approach: Subquery + Window Function
+*/
+
+SELECT
+  category,
+  product,
+  total
+FROM
+  (
+  SELECT
+    ROW_NUMBER() OVER(PARTITION BY category ORDER BY total DESC) AS ranking,
+    category,
+    product,
+    total
+  FROM
+    (
+    SELECT
+      category,
+      product,
+      SUM(spend) AS total
+    FROM
+      product_spend
+    WHERE
+      transaction_date BETWEEN '01/01/2022 00:00:00' AND '12/31/2022 23:59:29'
+    GROUP BY
+      product, category
+    ORDER BY category, total DESC) AS a) AS b
+WHERE
+  b.ranking IN (1,2)
+ORDER BY category, total DESC;
+
+-- Mistake: Forgot to add DESC after 'ORDER BY total' that led opposite result
