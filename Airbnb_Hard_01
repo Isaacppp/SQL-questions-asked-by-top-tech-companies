@@ -1,0 +1,38 @@
+/*
+Question: Matching Rental Amenities
+by: Airbnb
+Link to the detail of question: https://datalemur.com/questions/matching-rental-amenities
+Approach: CTE + ARRAY_AGG + SELF JOIN
+*/
+
+--Get amenties grouped by each rental unit
+
+WITH summary
+AS(
+  SELECT
+    rental_id,
+    ARRAY_AGG(amenity ORDER BY amenity) AS amenities
+  FROM
+    rental_amenities
+  GROUP BY
+    rental_id
+)
+
+
+
+SELECT
+  COUNT(matched_amenities) matching_airbnb
+FROM
+
+--Query a table that lists each rental and their matching rental that can be their substitute
+
+  (SELECT
+    a.rental_id AS rental_id,
+    b.rental_id AS matched_id,
+    a.amenities AS matched_amenities
+  FROM
+    summary a
+    JOIN
+    summary b ON a.amenities = b.amenities
+      AND a.rental_id <> b.rental_id
+      AND a.rental_id < b.rental_id) AS matching_table;
