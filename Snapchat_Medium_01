@@ -1,0 +1,27 @@
+/*
+Question: Sending vs. Opening Snaps
+by: Snapchat
+Link to the detail of question: https://datalemur.com/questions/time-spent-snaps
+Approach: CTE + AGG + JOIN
+*/
+
+WITH summary
+AS(
+  SELECT
+    user_id,
+    b.age_bucket,
+    SUM(CASE WHEN a.activity_type = 'open' THEN a.time_spent ELSE 0 END) AS open_time_spent,
+    SUM(CASE WHEN a.activity_type = 'send' THEN a.time_spent ELSE 0 END) AS send_time_spent
+  FROM
+    activities a
+    JOIN age_breakdown b USING(user_id)
+  GROUP BY a.user_id, b.age_bucket
+)
+
+SELECT
+  age_bucket,
+  ROUND(send_time_spent/(open_time_spent + send_time_spent)*100.0,2) AS send_perc,
+  ROUND(open_time_spent/(open_time_spent + send_time_spent)*100.0,2) AS open_perc
+FROM summary
+ORDER BY
+  age_bucket;
