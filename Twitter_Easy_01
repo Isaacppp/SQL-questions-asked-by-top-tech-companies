@@ -2,7 +2,7 @@
 Question: Histogram of Tweets
 by: Twitter
 Link to the detail of question: https://datalemur.com/questions/compensation-outliers
-Approach: CTE
+Approach: CTE + AGG
 */
 
 WITH 2022_post_count
