@@ -1,0 +1,24 @@
+/*
+Question: 3-Topping Pizzas
+by: Mckinsey
+Link to the detail of question: https://datalemur.com/questions/pizzas-topping-cost
+Approach: SELF JOIN
+*/
+
+
+SELECT
+    CONCAT(a.topping_name,
+            ', ',
+            b.topping_name,
+            ', ',
+            c.topping_name) AS pizza,
+    a.ingredient_cost + b.ingredient_cost + c.ingredient_cost AS total_cost
+FROM
+    pizza_toppings a,
+    pizza_toppings b,
+    pizza_toppings c
+WHERE
+    a.topping_name < b.topping_name
+        AND b.topping_name < c.topping_name
+ORDER BY total_cost DESC;
+
