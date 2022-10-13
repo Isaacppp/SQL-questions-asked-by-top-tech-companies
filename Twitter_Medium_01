@@ -1,0 +1,29 @@
+/*
+Question: User Session Activity
+by: Twitter
+Link to the detail of question: https://datalemur.com/questions/sql-session-activity
+Approach: CTE + Window Function + AGG
+*/
+
+
+WITH summary
+AS(
+  SELECT
+    user_id,
+    session_type,
+    SUM(duration) AS total
+  FROM
+    sessions
+  WHERE
+    start_date BETWEEN '01/01/2022 00:00:00' AND '01/31/2022 23:59:59'
+  GROUP BY
+    user_id, session_type
+)
+
+SELECT
+  user_id,
+  session_type,
+  RANK() OVER(PARTITION BY session_type ORDER BY total DESC) AS ranking
+FROM
+  summary
+ORDER BY session_type, ranking;
