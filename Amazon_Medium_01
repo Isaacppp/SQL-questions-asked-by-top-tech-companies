@@ -2,7 +2,7 @@
 Question: Highest-Grossing Items
 by: Amazon
 Link to the detail of question: https://datalemur.com/questions/sql-highest-grossing
-Approach: Subquery + Window Function
+Approach: Subquery + Window Function 
 */
 
 SELECT
