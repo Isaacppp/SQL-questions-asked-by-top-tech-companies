@@ -1,0 +1,18 @@
+/*
+Question: User Shopping Sprees
+by: Amazon
+Link to the detail of question: https://datalemur.com/questions/amazon-shopping-spree
+Approach: SELF JOIN
+*/
+
+SELECT
+  DISTINCT(a.user_id)
+FROM
+  transactions a,
+  transactions b,
+  transactions c
+WHERE
+  DATE(b.transaction_date) = DATE(a.transaction_date)+1
+  AND DATE(c.transaction_date) = DATE(a.transaction_date)+2
+ORDER BY
+  a.user_id
