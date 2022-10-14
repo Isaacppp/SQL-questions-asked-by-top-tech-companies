@@ -1,0 +1,32 @@
+/*
+Question: Active User Retention
+by: Facebook
+Link to the detail of question: https://datalemur.com/questions/user-retention
+Approach: CTE + SELF JOIN
+*/
+
+WITH summary
+AS(
+  SELECT
+    user_id,
+    DATE_PART('month', event_date) AS month
+  FROM
+    user_actions
+  GROUP BY
+    user_id, month
+  ORDER BY
+    user_id, month
+)
+
+SELECT
+  a.month,
+  COUNT(a.user_id) monthly_active_users
+FROM
+  summary a,
+  summary b
+WHERE
+  a.user_id = b.user_id
+  AND a.month = b.month + 1
+  AND a.month = 7
+GROUP BY
+  a.month
