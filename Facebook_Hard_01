@@ -2,7 +2,7 @@
 Question: Reactivated Users
 by: Facebook
 Link to the detail of question: https://datalemur.com/questions/reactivated-users
-Approach: CTE + Window Function + COALESCE
+Approach: CTE + Window Function
 */
 
 WITH in_month
