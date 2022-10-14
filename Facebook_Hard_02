@@ -1,0 +1,21 @@
+/*
+Question: Advertiser Status
+by: Facebook
+Link to the detail of question: https://datalemur.com/questions/updated-status
+Approach: FULL JOIN
+*/
+
+SELECT
+  user_id,
+  CASE 
+    WHEN paid IS NULL THEN 'CHURN' 
+    WHEN status <> 'CHURN' AND paid IS NOT NULL THEN 'EXISTING'
+    WHEN status = 'CHURN' AND paid IS NOT NULL THEN 'RESURRECT'
+    WHEN status IS NULL THEN 'NEW'
+  END AS new_status
+FROM
+  advertiser a
+  FULL JOIN
+  daily_pay d USING(user_id)
+ORDER BY
+  user_id;
