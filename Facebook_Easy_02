@@ -2,7 +2,7 @@
 Question: Average Post Hiatus (Part 1)
 by: Facebook
 Link to the detail of question: https://datalemur.com/questions/sql-average-post-hiatus-1
-Approach: MIN&MAX + HAVING
+Approach: AGG
 */
 
 SELECT
