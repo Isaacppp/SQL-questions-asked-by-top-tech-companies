@@ -2,7 +2,7 @@
 Question: Spare Server Capacity
 by: Microsoft
 Link to the detail of question: https://datalemur.com/questions/sql-spare-server-capacity
-Approach: CTE + JOIN
+Approach: CTE + JOIN + AGG
 */
 
 WITH demand
