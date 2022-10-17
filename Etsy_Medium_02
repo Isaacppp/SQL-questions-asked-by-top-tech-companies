@@ -1,0 +1,27 @@
+/*
+Question: Same Week Purchases
+by: Etsy
+Link to the detail of question: https://datalemur.com/questions/same-week-purchases
+Approach: CTE + LEFT JOIN + WINDOW FUNCTION + AGG
+*/
+
+WITH first_order
+AS(
+SELECT
+  DISTINCT(s.user_id) AS user_id,
+  s.signup_date AS signup_date,
+  FIRST_VALUE(u.purchase_date) OVER(PARTITION BY user_id ORDER BY u.purchase_date) AS first_purchase
+FROM
+  signups s
+  LEFT JOIN
+  user_purchases u USING(user_id)
+ORDER BY
+  first_purchase
+)
+
+SELECT
+  ROUND(100.0*SUM(CASE
+        WHEN DATE_PART('day', first_purchase - signup_date) <= 7 THEN 1
+        ELSE 0 END)/COUNT(user_id),2) AS pct
+FROM
+  first_order;
