@@ -2,7 +2,7 @@
 Question: First Transaction
 by: Etsy
 Link to the detail of question: https://datalemur.com/questions/sql-first-transaction
-Approach: CTE + Window Function
+Approach: CTE + Window Function + AGG
 */
 
 WITH order_all
