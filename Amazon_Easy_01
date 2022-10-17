@@ -1,0 +1,18 @@
+/*
+Question: Average Review Ratings
+by: Accenture
+Link to the detail of question: https://datalemur.com/questions/sql-avg-review-ratings
+Approach: AGG
+*/
+
+
+SELECT
+  EXTRACT('month' FROM submit_date) AS month,
+  product_id,
+  ROUND(AVG(stars),2) AS avg_rating
+FROM
+  reviews
+GROUP BY
+  month, product_id
+ORDER BY
+  month, product_id;
