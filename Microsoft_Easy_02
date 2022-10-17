@@ -1,0 +1,20 @@
+/*
+Question: Teams Power Users
+by: Microsoft
+Link to the detail of question: https://datalemur.com/questions/teams-power-users
+Approach: AGG
+*/
+
+SELECT
+  sender_id,
+  COUNT(message_id) AS num_of_msg
+FROM
+  messages
+WHERE
+  EXTRACT('year' FROM sent_date) = 2022
+  AND EXTRACT('month' FROM sent_date) = 8
+GROUP BY
+  sender_id
+ORDER BY
+  num_of_msg DESC
+LIMIT 2;
