@@ -1,0 +1,20 @@
+/*
+Question: Median Google Search Frequency
+by: Google
+Link to the detail of question: https://datalemur.com/questions/median-search-freq
+Approach: CTE
+*/
+
+WITH expanded
+AS(
+  SELECT searches
+  FROM search_frequency
+  GROUP BY 
+    searches, 
+    GENERATE_SERIES(1, num_users)
+)
+
+SELECT
+  ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY searches)::DECIMAL,1) AS median
+FROM
+  expanded
