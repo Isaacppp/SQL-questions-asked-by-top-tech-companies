@@ -1,0 +1,32 @@
+/*
+Question: Server Utilization Time
+by: Amazon
+Link to the detail of question: https://datalemur.com/questions/total-utilization-time
+Approach: CTE + Window Function + LEFT JOIN
+*/
+
+WITH start_time
+AS(
+select
+  ROW_NUMBER() OVER(ORDER BY status_time) AS num,
+  session_status,
+  status_time
+from server_utilization
+where session_status = 'start'
+order by num, status_time),
+
+stop_time AS (
+  select
+    ROW_NUMBER() OVER(ORDER BY status_time) AS num,
+    session_status,
+    status_time
+  from server_utilization
+  where session_status = 'stop'
+  order by num, status_time)
+
+select
+  ROUND(EXTRACT(day FROM SUM(b.status_time - a.status_time)) + EXTRACT(hour FROM SUM(b.status_time - a.status_time))/24,0) AS total_uptime
+from
+  start_time a
+  LEFT JOIN
+  stop_time b using(num);
