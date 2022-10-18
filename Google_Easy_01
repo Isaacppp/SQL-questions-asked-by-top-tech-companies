@@ -1,8 +1,8 @@
 /*
 Question: Ad Campaign ROAS
-by: Google 
+by: Google
 Link to the detail of question: https://datalemur.com/questions/ad-campaign-roas
-Approach: SUM 
+Approach: AGG
 */
 
 SELECT
