@@ -2,9 +2,19 @@
 Question: Repeat Purchases on Multiple Days
 by: Stitch Fix
 Link to the detail of question: https://datalemur.com/questions/sql-repeat-purchases
-Approach: CTE + AGG
+Approach: SELF JOIN
 */
 
+SELECT
+  COUNT(DISTINCT a.user_id) AS repeated_buyers
+FROM
+  purchases a,
+  purchases b
+WHERE
+  a.product_id = b.product_id
+  AND a.purchase_date::DATE <> b.purchase_date::DATE
+
+--or, use CTE + AGG
 
 WITH cte
 AS(
