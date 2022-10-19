@@ -1,0 +1,43 @@
+/*
+Question: Marketing Touch Streak
+by: Snowfake
+Link to the detail of question: https://datalemur.com/questions/marketing-touch-streak
+Approach: CTE + Window Function + AGG + Subquery
+*/
+
+--Practice for Subqueries in WHERE clause with IN
+
+WITH record_review
+AS(
+  SELECT
+    contact_id,
+    event_type,
+    DATE_TRUNC('week', event_date) - DATE_TRUNC('week', LAG(event_date) 
+                      OVER(PARTITION BY contact_id ORDER BY event_date)) AS gap
+  FROM
+    marketing_touches
+  WHERE
+    (contact_id) IN
+    (SELECT contact_id FROM marketing_touches WHERE event_type = 'trial_request')
+  ORDER BY
+    contact_id, event_date
+)
+
+SELECT
+  DISTINCT(c.email)
+FROM
+  record_review r
+  JOIN
+  crm_contacts c USING(contact_id)
+WHERE
+  (r.contact_id) IN
+  (SELECT
+    contact_id
+  FROM
+  record_review
+  WHERE
+    gap >= INTERVAL '7 days'
+  GROUP BY
+    contact_id
+  HAVING
+    COUNT(gap) >=2)
