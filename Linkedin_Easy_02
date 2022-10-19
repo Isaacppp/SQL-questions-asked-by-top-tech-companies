@@ -2,7 +2,7 @@
 Question: Data Science Skills
 by: Linkedin 
 Link to the detail of question: https://datalemur.com/questions/matching-skills
-Approach: HAVING
+Approach: AGG
 */
 
 SELECT
