@@ -1,0 +1,71 @@
+/*
+Question: Repeated Payments
+by: Stripe
+Link to the detail of question: https://datalemur.com/questions/repeated-payments
+Approach: CTE + Window Function + AGG
+*/
+
+WITH repeated_payment
+AS(
+  SELECT
+    merchant_id,
+    EXTRACT(EPOCH FROM transaction_timestamp -
+    LAG(transaction_timestamp) OVER(PARTITION BY merchant_id, credit_card_id, amount
+    ORDER BY transaction_timestamp))/60 AS minutes
+  FROM
+    transactions
+)
+
+SELECT
+  COUNT(merchant_id) AS repeated_payments
+FROM
+  repeated_payment
+WHERE
+   minutes <= 10;
+
+
+
+
+--The other approach with listing out possible repeated payments first
+
+-- List out the possible repeated payments
+WITH possible_re_payments
+AS(
+  SELECT
+    merchant_id,
+    credit_card_id,
+    amount,
+    transaction_timestamp
+  FROM
+    transactions
+  WHERE
+    (merchant_id, credit_card_id, amount) IN
+    (
+    SELECT
+      merchant_id,
+      credit_card_id,
+      amount
+    FROM transactions
+    GROUP BY
+      merchant_id,
+      credit_card_id,
+      amount
+    HAVING
+      COUNT(transaction_timestamp) >1
+    ORDER BY
+      COUNT(transaction_timestamp))
+)
+
+-- Count repeated payments (same payment made within 10 minutes)
+SELECT
+  COUNT(CASE
+          WHEN EXTRACT(epoch FROM next - time)/60<= 10 THEN merchant_id END) AS repeated_payments
+FROM
+  (SELECT
+    merchant_id,
+    transaction_timestamp AS time,
+    LEAD(transaction_timestamp) OVER(PARTITION BY merchant_id ORDER BY transaction_timestamp) AS next
+  FROM
+    possible_re_payments) AS sorted
+    
+ 
