@@ -1,0 +1,17 @@
+/*
+Question: LinkedIn Power Creators (Part 1)
+by: Linkedin
+Link to the detail of question: https://datalemur.com/questions/linkedin-power-creators
+Approach: JOIN
+*/
+
+SELECT 
+  p.profile_id
+FROM
+  personal_profiles p
+  JOIN
+  company_pages c ON p.employer_id = c.company_id
+WHERE
+  p.followers > c.followers
+ORDER BY
+  p.profile_id
