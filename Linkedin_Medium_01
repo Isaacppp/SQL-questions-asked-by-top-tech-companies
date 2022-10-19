@@ -1,0 +1,30 @@
+/*
+Question: LinkedIn Power Creators (Part 2)
+by: Linkedin
+Link to the detail of question: https://datalemur.com/questions/linkedin-power-creators-part2
+Approach: CTE + Window Function
+*/
+
+WITH most_company_followers
+AS(
+  SELECT
+    p.profile_id,
+    p.followers,
+    FIRST_VALUE(c.followers) OVER(PARTITION BY p.profile_id ORDER BY c.followers DESC) AS max_c_follower
+  FROM
+    personal_profiles p
+    JOIN
+    employee_company e ON p.profile_id = e.personal_profile_id
+    JOIN
+    company_pages c USING(company_id)
+  ORDER BY
+    p.profile_id)
+
+SELECT
+  DISTINCT(profile_id) AS power_creators
+FROM
+  most_company_followers
+WHERE
+  followers > max_c_follower 
+ORDER BY
+  power_creators
