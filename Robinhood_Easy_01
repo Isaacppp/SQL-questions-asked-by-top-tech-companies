@@ -2,7 +2,7 @@
 Question: Cities With Completed Trades
 by: Robinhood
 Link to the detail of question: https://datalemur.com/questions/completed-trades
-Approach: JOIN
+Approach: AGG + JOIN
 */
 
 ## my code here:
