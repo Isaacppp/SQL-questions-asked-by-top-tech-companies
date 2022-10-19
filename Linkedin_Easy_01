@@ -2,7 +2,7 @@
 Question: Duplicate Job Listings
 by: Linkedin
 Link to the detail of question: https://datalemur.com/questions/duplicate-job-listings
-Approach: CTE
+Approach: CTE + AGG
 */
 
 WITH duplicate_jobs
