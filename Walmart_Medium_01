@@ -1,0 +1,32 @@
+/*
+Question: Histogram of Users and Purchases
+by: Walmart
+Link to the detail of question: https://datalemur.com/questions/histogram-users-purchases
+Approach: CTE + Window Function + AGG
+*/
+
+
+WITH sorted_transactions
+AS(
+  SELECT
+    RANK() OVER(PARTITION BY user_id ORDER BY transaction_date DESC) num,
+    user_id,
+    product_id,
+    transaction_date
+    
+  FROM
+    user_transactions
+)
+
+SELECT
+  transaction_date,
+  COUNT(DISTINCT user_id) AS users,
+  COUNT(DISTINCT product_id) AS products
+FROM
+  sorted_transactions
+WHERE
+  num = 1
+GROUP BY
+  transaction_date
+ORDER BY
+  transaction_date
