@@ -2,7 +2,7 @@
 Question: Matching Rental Amenities
 by: Airbnb
 Link to the detail of question: https://datalemur.com/questions/matching-rental-amenities
-Approach: CTE + ARRAY_AGG + SELF JOIN
+Approach: CTE + SELF JOIN
 */
 
 --Get amenties grouped by each rental unit
