@@ -2,7 +2,7 @@
 Question: Signup Confirmation Rate
 by: Tiktok
 Link to the detail of question: https://datalemur.com/questions/signup-confirmation-rate
-Approach: CTE + JOIN
+Approach: CTE + LEFT JOIN
 */
 
 WITH confirmed_acct
