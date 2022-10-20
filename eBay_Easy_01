@@ -2,7 +2,7 @@
 Question: Highest Number of Products
 by: eBay
 Link to the detail of question: https://datalemur.com/questions/sql-highest-products
-Approach: COUNT DISTINCT + HAVING 
+Approach: AGG
 */
 
 SELECT
