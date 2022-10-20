@@ -5,8 +5,6 @@ Link to the detail of question: https://datalemur.com/questions/completed-trades
 Approach: AGG + JOIN
 */
 
-## my code here:
-
 SELECT
   u.city,
   COUNT(t.*) AS total_orders
