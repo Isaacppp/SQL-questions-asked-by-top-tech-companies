@@ -1,7 +1,7 @@
 /*
 Question: Histogram of Tweets
 by: Twitter
-Link to the detail of question: https://datalemur.com/questions/compensation-outliers
+Link to the detail of question: https://datalemur.com/questions/sql-histogram-tweets
 Approach: CTE + AGG
 */
 
